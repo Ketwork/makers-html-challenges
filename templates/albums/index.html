@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Album List</title>
+  </head>
+  <body>
+    <h1>Albums</h1>
+
+    {% for album in albums %}
+    
+      {% if artist %}
+        <article>
+          <h2>{{album.title}}</h2> 
+          <p>Released: {{album.release_year}}</p>
+          <p>Artist: {{ artist.name }}</p>
+        </article>
+      {% else %}
+        <article>
+          <h2>{{album.title}}</h2> 
+          <p>Released: {{album.release_year}}</p>
+        </article>
+      {% endif %}
+    {% endfor %}
+    <!-- ... -->
+  </body>
+</html>
