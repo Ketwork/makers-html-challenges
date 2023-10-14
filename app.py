@@ -32,8 +32,23 @@ def get_single_album(id):
     
     return render_template("albums/show.html", album=album, artist=artist)
 
+@app.route('/artists/<int:id>')
+def get_single_artist(id):
+    connection = get_flask_database_connection(app)
+    artist_repository = ArtistRepository(connection)
 
+    artist = artist_repository.find(id)
 
+    return render_template("artists/show.html", artist=artist)
+
+@app.route('/artists')
+def get_all_artists():
+    connection = get_flask_database_connection(app)
+    repository = ArtistRepository(connection)
+    
+    artists = repository.all()
+
+    return render_template("artists/index.html", artists=artists)
 
 
 # == Previous project Routes Here ==

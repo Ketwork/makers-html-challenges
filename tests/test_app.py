@@ -59,11 +59,37 @@ def test_visit_album_show_page_and_go_back(page, test_web_address, db_connection
     h1_tag = page.locator('h1')
     expect(h1_tag).to_have_text("Albums")
 
+def test_get_artist_1(page, test_web_address, db_connection):
+    db_connection.seed("seeds/record_store.sql")
 
+    page.goto(f"http://{test_web_address}/artists/1")
+    h1_tags = page.locator("h1")
+    genre_tag = page.locator(".t-genre")
 
+    expect(h1_tags).to_have_text("Artist: Pixies")
+    expect(genre_tag).to_have_text("Genre: Rock")
 
+def test_get_all_artists(page, test_web_address, db_connection):
+    db_connection.seed("seeds/record_store.sql")
+    page.goto(f"http://{test_web_address}/artists")
+    li_tags = page.locator("li")
+    
+    expect(li_tags).to_have_text([
+        "Pixies",
+        "ABBA",
+        "Taylor Swift",
+        "Nina Simone"
+    ])
 
+def test_visit_artist_show_page(page, test_web_address, db_connection):
+    db_connection.seed("seeds/record_store.sql")
+    page.goto(f"http://{test_web_address}/artists")
+    page.click("text='Pixies'")
+    h1_tag = page.locator('h1')
+    genre_tag = page.locator('.t-genre')
 
+    expect(h1_tag).to_have_text("Artist: Pixies")
+    expect(genre_tag).to_have_text("Genre: Rock")
 
 
 # === Example Code Below ===
