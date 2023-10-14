@@ -5,22 +5,26 @@
   </head>
   <body>
     <h1>Albums</h1>
+    <ul>
+      {% for album in albums %}
+      
+        {% if artist %}
+          <li>
+            <h2>
+              <a href="/albums/{{album.id}}">{{album.title}}</a>
+            </h2> 
+            <p>Artist: {{ artist.name }}</p>
+          </li>
+        {% else %}
+          <li>
+            <h2>
+              <a href="/albums/{{album.id}}">{{album.title}}</a>
+            </h2> 
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
 
-    {% for album in albums %}
-    
-      {% if artist %}
-        <article>
-          <h2>{{album.title}}</h2> 
-          <p>Released: {{album.release_year}}</p>
-          <p>Artist: {{ artist.name }}</p>
-        </article>
-      {% else %}
-        <article>
-          <h2>{{album.title}}</h2> 
-          <p>Released: {{album.release_year}}</p>
-        </article>
-      {% endif %}
-    {% endfor %}
     <!-- ... -->
   </body>
 </html>

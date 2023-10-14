@@ -13,6 +13,15 @@ def test_all(db_connection):
     ]
 
 """
+When I call #find with an id
+I get that album back
+"""
+def test_find(db_connection):
+    db_connection.seed("seeds/record_store.sql")
+    repository = AlbumRepository(db_connection)
+    assert repository.find(1) == Album(1, "Doolittle", 1989, 1)
+
+"""
 When I call #create
 I create an album in the database 
 And I see it back in #all

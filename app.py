@@ -30,7 +30,7 @@ def get_single_album(id):
     album = album_repository.find(id)
     artist = artist_repository.find(album.artist_id)
     
-    return render_template("albums/index.html", albums=[album], artist=artist)
+    return render_template("albums/show.html", album=album, artist=artist)
 
 
 

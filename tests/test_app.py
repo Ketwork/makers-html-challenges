@@ -10,42 +10,62 @@ def test_get_goodbye(page, test_web_address):
 def test_get_albums(page, test_web_address, db_connection):
     db_connection.seed("seeds/record_store.sql")
     page.goto(f"http://{test_web_address}/albums")
-    h2_tags = page.locator("h2")
-    paragraph_tags = page.locator("p")
-    expect(h2_tags).to_have_text([
+    li_tags = page.locator("li")
+    expect(li_tags).to_have_text([
         "Doolittle",
         "Surfer Rosa",
     ])
-    expect(paragraph_tags).to_have_text([
-        "Released: 1989",
-        "Released: 1988"
-    ])
 
-def test_get_album_1(page, test_web_address, db_connection):
-    db_connection.seed("seeds/record_store.sql")
-    page.goto(f"http://{test_web_address}/albums/1")
-    h2_tags = page.locator("h2")
-    paragraph_tags = page.locator("p")
-    expect(h2_tags).to_have_text([
-        "Doolittle"
-    ])
-    expect(paragraph_tags).to_have_text([
-        "Released: 1989",
-        "Artist: Pixies"
-    ])
+# def test_get_album_1(page, test_web_address, db_connection):
+#     db_connection.seed("seeds/record_store.sql")
+#     page.goto(f"http://{test_web_address}/albums/1")
+#     h2_tags = page.locator("h2")
+#     paragraph_tags = page.locator("p")
+#     expect(h2_tags).to_have_text([
+#         "Doolittle"
+#     ])
+#     expect(paragraph_tags).to_have_text([
+#         "Released: 1989",
+#         "Artist: Pixies"
+#     ])
 
-def test_get_album_2(page, test_web_address, db_connection):
+# def test_get_album_2(page, test_web_address, db_connection):
+#     db_connection.seed("seeds/record_store.sql")
+#     page.goto(f"http://{test_web_address}/albums/2")
+#     h2_tags = page.locator("h2")
+#     paragraph_tags = page.locator("p")
+#     expect(h2_tags).to_have_text([
+#         "Surfer Rosa"
+#     ])
+#     expect(paragraph_tags).to_have_text([
+#         "Released: 1988",
+#         "Artist: Pixies"
+#     ])
+
+"""
+The page returned by GET /albums should contain a link for each album listed.
+It should link to /albums/<id>, where <id> is the corresponding album's id.
+That page should then show information about the specific album.
+"""
+def test_visit_album_show_page(page, test_web_address, db_connection):
     db_connection.seed("seeds/record_store.sql")
-    page.goto(f"http://{test_web_address}/albums/2")
-    h2_tags = page.locator("h2")
-    paragraph_tags = page.locator("p")
-    expect(h2_tags).to_have_text([
-        "Surfer Rosa"
-    ])
-    expect(paragraph_tags).to_have_text([
-        "Released: 1988",
-        "Artist: Pixies"
-    ])
+    page.goto(f"http://{test_web_address}/albums")
+    page.click("text='Surfer Rosa'")
+    h1_tag = page.locator('h1')
+    expect(h1_tag).to_have_text("Album: Surfer Rosa")
+    release_year_tag = page.locator('.t-release-year')
+    expect(release_year_tag).to_have_text("Released: 1988")
+
+def test_visit_album_show_page_and_go_back(page, test_web_address, db_connection):
+    db_connection.seed("seeds/record_store.sql")
+    page.goto(f"http://{test_web_address}/albums")
+    page.click("text='Surfer Rosa'")
+    page.click("text='Go back to album list'")
+    h1_tag = page.locator('h1')
+    expect(h1_tag).to_have_text("Albums")
+
+
+
 
 # === Example Code Below ===
 
