@@ -50,6 +50,10 @@ def get_all_artists():
 
     return render_template("artists/index.html", artists=artists)
 
+@app.route('/albums/new')
+def test_create_album():
+    return render_template("albums/new.html")
+
 
 # == Previous project Routes Here ==
 

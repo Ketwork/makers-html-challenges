@@ -91,6 +91,24 @@ def test_visit_artist_show_page(page, test_web_address, db_connection):
     expect(h1_tag).to_have_text("Artist: Pixies")
     expect(genre_tag).to_have_text("Genre: Rock")
 
+def test_create_album(page, test_web_address, db_connection):
+    page.set_default_timeout(1000) # kept short for testing
+    db_connection.seed("seeds/record_store.sql")
+    page.goto(f"http://{test_web_address}/albums")
+    page.click('text="Add album"')
+
+    page.fill('input[name=title]', "Test Album")
+    page.fill('input[name=release_year]', "1234")
+    page.click('text="Add Album"')
+
+    h1_tag = page.locator('h1')
+    expect(h1_tag).to_have_text("Album: Test Album")
+    release_year_tag = page.locator('.t-release-year')
+    expect(release_year_tag).to_have_text("Released: 1234")
+
+
+
+
 
 # === Example Code Below ===
 
